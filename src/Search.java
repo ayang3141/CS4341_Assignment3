@@ -35,6 +35,7 @@ public class Search {
         List<Integer> costToGoalList = new ArrayList<Integer>();
         List<Coordinate> coordinateList = new ArrayList<Coordinate>();
         List<String> NewMoveList = new ArrayList<>();
+        List<Integer> directionList = new ArrayList<Integer>();
 
         // AStar Algorithm variables
         List<String> MoveList = new ArrayList<>();
@@ -94,6 +95,7 @@ public class Search {
                     NewMoveList.add(current.previousMove);
                     coordinateList.add(current.getCoordinate());
                     costToGoalList.add(actualCost - current.currentCost);
+                    directionList.add(current.getFaceDirection());
 
                     // get previous state
                     State temp = current.previousState;
@@ -104,12 +106,14 @@ public class Search {
                 NewMoveList.add("S");
                 coordinateList.add(current.getCoordinate());
                 costToGoalList.add(actualCost - current.currentCost);
+                directionList.add(current.getFaceDirection());
 
                 // reverse lists to obtain chronological order
                 Collections.reverse(MoveList);
                 Collections.reverse(costToGoalList);
                 Collections.reverse(coordinateList);
                 Collections.reverse(NewMoveList);
+                Collections.reverse(directionList);
 
                 break;
             }
@@ -166,7 +170,7 @@ public class Search {
         }
 
         // Print ML Learning Stuff
-        printFeatures(NewMoveList, costToGoalList, coordinateList);
+        printFeatures(NewMoveList, costToGoalList, coordinateList, directionList, endPoint);
 
 
 
@@ -178,7 +182,19 @@ public class Search {
     } // End of A_Star_Search()
 
 
-    public void printFeatures(List<String> moveList, List<Integer> actualCost, List<Coordinate> coordinateList) {
+    public void printFeatures(List<String> moveList,
+                              List<Integer> actualCost,
+                              List<Coordinate> coordinateList,
+                              List<Integer> directionList,
+                              Coordinate endPoint) {
+        /*
+            - The value of the squares immediately adjacent to the robot (8 squares)
+            - The value of the squares around the goal (8 squares)
+            - The robot’s location and facing direction
+            - The goal location
+         */
+
+
         System.out.println("\nFeatures for Machine Learning");
         try {
             FileWriter file = new FileWriter("astarResults1.csv");
@@ -192,9 +208,19 @@ public class Search {
                     write.print("after " + moveList.get(i));
                 }
                 write.print("\t");
-                write.print(coordinateList.get(i).getX());
+                int xDistance = Math.abs(coordinateList.get(i).getX() - endPoint.getX());
+                write.print(xDistance);
                 write.print("\t");
-                write.print(coordinateList.get(i).getY());
+                int yDistance = Math.abs(coordinateList.get(i).getY() - endPoint.getY());
+                write.print(yDistance);
+                write.print("\t");
+                double xDistSquared = Math.pow(xDistance, 2.0);
+                write.print(xDistSquared);
+                write.print("\t");
+                double yDistSquared = Math.pow(yDistance, 2.0);
+                write.print(yDistSquared);
+                write.print("\t");
+                write.print(directionList.get(i));
                 write.print("\t");
                 write.print(actualCost.get(i));
                 write.print("\n");
