@@ -13,6 +13,7 @@ public class Heuristics {
     public static final int H_FOURTH = 4;
     public static final int H_FIFTH = 5;
     public static final int H_SIXTH = 6;
+    public static final int H_SEVENTH = 7;
 
     int heuristicChoice;
 
@@ -38,6 +39,8 @@ public class Heuristics {
                 return admissableHeuristic(current, target);
             case H_SIXTH:
                 return nonadmissableHeuristic(current, target);
+            case H_SEVENTH:
+                return mlHeuristic();
 
         }
         return 0;
@@ -76,6 +79,10 @@ public class Heuristics {
     // inadmissible heuristic function (3 times admissible function)
     public int nonadmissableHeuristic(Coordinate current, Coordinate target) {
         return 3 * admissableHeuristic(current, target);
+    }
+
+    public int mlHeuristic() {
+        return 0;
     }
 
 }
