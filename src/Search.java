@@ -162,7 +162,7 @@ public class Search {
         } // end of the while loop
 
 
-//        // ---------- CALCULATION OF THE OPTIMAL PATH -----------
+        // ---------- CALCULATION OF THE OPTIMAL PATH -----------
         // Determine the number of actions in optimal path
         numActions = MoveList.size();;
         // print out path score, number of actions, and number of nodes expanded
@@ -174,14 +174,14 @@ public class Search {
             System.out.println(MoveList.get(j));
         }
 
-        // Print ML Learning Stuff
-        printFeatures(NewMoveList,
-                        costToGoalList,
-                        coordinateList,
-                        directionList,
-                        stateList,
-                        this.gameBoard,
-                        this.agent);
+//        // Print ML Learning Stuff
+//        printFeatures(NewMoveList,
+//                        costToGoalList,
+//                        coordinateList,
+//                        directionList,
+//                        stateList,
+//                        this.gameBoard,
+//                        this.agent);
 
 
 
@@ -222,25 +222,21 @@ public class Search {
                     write.print("after " + moveList.get(i));
                 }
                 write.print("\t");
+
                 // get x distance to goal
-                int xDistance = Math.abs(coordinateList.get(i).getX() - endPoint.getX());
+                int xDistance = coordinateList.get(i).getX() - endPoint.getX();
                 write.print(xDistance);
                 write.print("\t");
+
                 // get y distance to goal
-                int yDistance = Math.abs(coordinateList.get(i).getY() - endPoint.getY());
+                int yDistance = coordinateList.get(i).getY() - endPoint.getY();
                 write.print(yDistance);
                 write.print("\t");
-                // get x distance to goal squared
-                double xDistSquared = Math.pow(xDistance, 2.0);
-                write.print(xDistSquared);
-                write.print("\t");
-                // get y distance to goal squared
-                double yDistSquared = Math.pow(yDistance, 2.0);
-                write.print(yDistSquared);
-                write.print("\t");
+
                 // get facing direction
                 write.print(directionList.get(i));
                 write.print("\t");
+
                 // get forward complexity
                 Coordinate forward = agent.getForwardSpace(stateList.get(i), 1);
                 if(agent.checkSpace(forward)) {
@@ -256,6 +252,7 @@ public class Search {
                     write.print(100);
                 }
                 write.print("\t");
+
                 // get left complexity
                 Coordinate left = agent.getLeftSpace(stateList.get(i));
                 if(agent.checkSpace(left)) {
@@ -288,6 +285,26 @@ public class Search {
                     write.print(100);
                 }
                 write.print("\t");
+
+                // get back complexity
+                Coordinate back = agent.getBackwardSpace(stateList.get(i));
+                if(agent.checkSpace(back)) {
+                    char backComplexity = gameBoard.getComplexity(back.getX(), back.getY());
+                    if((backComplexity == 'G') || (backComplexity == 'S')) {
+                        write.print(1);
+                    }
+                    else {
+                        write.print(Character.valueOf(backComplexity));
+                    }
+                }
+                else { // if boundary
+                    write.print(100);
+                }
+                write.print("\t");
+
+
+
+
 
                 // get actual cost at particular position
                 write.print(actualCost.get(i));
