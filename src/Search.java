@@ -36,12 +36,13 @@ public class Search {
         List<Coordinate> coordinateList = new ArrayList<Coordinate>();
         List<String> NewMoveList = new ArrayList<>();
         List<Integer> directionList = new ArrayList<Integer>();
+        List<State> stateList = new ArrayList<State>();
 
         // AStar Algorithm variables
         List<String> MoveList = new ArrayList<>();
         PriorityQueue<State> OPEN = new PriorityQueue<State>(StateComparator);
         Heuristics myHeuristic = new Heuristics(this.heuristic);
-        List<State> stateList = new ArrayList<State>();
+
 
         // initialize the cost_so_far matrix
         int rows = this.gameBoard.numRows;
@@ -96,6 +97,7 @@ public class Search {
                     coordinateList.add(current.getCoordinate());
                     costToGoalList.add(actualCost - current.currentCost);
                     directionList.add(current.getFaceDirection());
+                    stateList.add(current);
 
                     // get previous state
                     State temp = current.previousState;
@@ -107,6 +109,8 @@ public class Search {
                 coordinateList.add(current.getCoordinate());
                 costToGoalList.add(actualCost - current.currentCost);
                 directionList.add(current.getFaceDirection());
+                stateList.add(start_state);
+
 
                 // reverse lists to obtain chronological order
                 Collections.reverse(MoveList);
@@ -114,6 +118,7 @@ public class Search {
                 Collections.reverse(coordinateList);
                 Collections.reverse(NewMoveList);
                 Collections.reverse(directionList);
+                Collections.reverse(stateList);
 
                 break;
             }
@@ -170,7 +175,13 @@ public class Search {
         }
 
         // Print ML Learning Stuff
-        printFeatures(NewMoveList, costToGoalList, coordinateList, directionList, endPoint);
+        printFeatures(NewMoveList,
+                        costToGoalList,
+                        coordinateList,
+                        directionList,
+                        stateList,
+                        this.gameBoard,
+                        this.agent);
 
 
 
@@ -186,21 +197,24 @@ public class Search {
                               List<Integer> actualCost,
                               List<Coordinate> coordinateList,
                               List<Integer> directionList,
-                              Coordinate endPoint) {
+                              List<State> stateList,
+                              Board gameBoard,
+                              Agent agent) {
         /*
             - The value of the squares immediately adjacent to the robot (8 squares)
             - The value of the squares around the goal (8 squares)
             - The robot’s location and facing direction
             - The goal location
          */
-
-
         System.out.println("\nFeatures for Machine Learning");
+        Coordinate endPoint = gameBoard.getEndPoint();
         try {
-            FileWriter file = new FileWriter("astarResults1.csv");
+            // append parameter is used to append to existing csv files
+            FileWriter file = new FileWriter("astarResults1.csv", true);
             PrintWriter write = new PrintWriter(file);
 
             for(int i = 0; i < moveList.size(); i++) {
+                // get moves
                 if(moveList.get(i).equals("S")) {
                     write.print(moveList.get(i));
                 }
@@ -208,21 +222,76 @@ public class Search {
                     write.print("after " + moveList.get(i));
                 }
                 write.print("\t");
+                // get x distance to goal
                 int xDistance = Math.abs(coordinateList.get(i).getX() - endPoint.getX());
                 write.print(xDistance);
                 write.print("\t");
+                // get y distance to goal
                 int yDistance = Math.abs(coordinateList.get(i).getY() - endPoint.getY());
                 write.print(yDistance);
                 write.print("\t");
+                // get x distance to goal squared
                 double xDistSquared = Math.pow(xDistance, 2.0);
                 write.print(xDistSquared);
                 write.print("\t");
+                // get y distance to goal squared
                 double yDistSquared = Math.pow(yDistance, 2.0);
                 write.print(yDistSquared);
                 write.print("\t");
+                // get facing direction
                 write.print(directionList.get(i));
                 write.print("\t");
+                // get forward complexity
+                Coordinate forward = agent.getForwardSpace(stateList.get(i), 1);
+                if(agent.checkSpace(forward)) {
+                    char forwardComplexity = gameBoard.getComplexity(forward.getX(), forward.getY());
+                    if((forwardComplexity == 'G') || (forwardComplexity == 'S')) {
+                        write.print(1);
+                    }
+                    else {
+                        write.print(Character.valueOf(forwardComplexity));
+                    }
+                }
+                else { // if boundary
+                    write.print(100);
+                }
+                write.print("\t");
+                // get left complexity
+                Coordinate left = agent.getLeftSpace(stateList.get(i));
+                if(agent.checkSpace(left)) {
+                    char leftComplexity = gameBoard.getComplexity(left.getX(), left.getY());
+                    if((leftComplexity == 'G') || (leftComplexity == 'S')) {
+                        write.print(1);
+                    }
+                    else {
+                        write.print(Character.valueOf(leftComplexity));
+                    }
+
+                }
+                else { // if boundary
+                    write.print(100);
+                }
+                write.print("\t");
+
+                // get right complexity
+                Coordinate right = agent.getRightSpace(stateList.get(i));
+                if(agent.checkSpace(right)) {
+                    char rightComplexity = gameBoard.getComplexity(right.getX(), right.getY());
+                    if((rightComplexity == 'G') || (rightComplexity == 'S')) {
+                        write.print(1);
+                    }
+                    else {
+                        write.print(Character.valueOf(rightComplexity));
+                    }
+                }
+                else { // if boundary
+                    write.print(100);
+                }
+                write.print("\t");
+
+                // get actual cost at particular position
                 write.print(actualCost.get(i));
+
                 write.print("\n");
             }
             write.close();
