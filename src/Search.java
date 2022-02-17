@@ -174,14 +174,14 @@ public class Search {
             System.out.println(MoveList.get(j));
         }
 
-//        // Print ML Learning Stuff
-//        printFeatures(NewMoveList,
-//                        costToGoalList,
-//                        coordinateList,
-//                        directionList,
-//                        stateList,
-//                        this.gameBoard,
-//                        this.agent);
+        // Print ML Learning Stuff
+        printFeatures(NewMoveList,
+                        costToGoalList,
+                        coordinateList,
+                        directionList,
+                        stateList,
+                        this.gameBoard,
+                        this.agent);
 
 
 
@@ -235,6 +235,17 @@ public class Search {
 
                 // get facing direction
                 write.print(directionList.get(i));
+                write.print("\t");
+
+                // get current complexity
+                Coordinate currentPosition = stateList.get(i).getCoordinate();
+                char currentComplexity = gameBoard.getComplexity(currentPosition.getX(), currentPosition.getY());
+                if((currentComplexity == 'G') || (currentComplexity == 'S')) {
+                    write.print(1);
+                }
+                else {
+                    write.print(Character.valueOf(currentComplexity));
+                }
                 write.print("\t");
 
                 // get forward complexity

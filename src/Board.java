@@ -19,6 +19,12 @@ public class Board {
         this.fileName = fileName;
     }
 
+    public Board(char[][] gameboard) {
+        this.gameboard = gameboard;
+        this.numRows = gameboard.length;
+        this.numCols = gameboard[0].length;
+    }
+
     // This method finds the starting point of the board,
     // Starting point is coordinate with 'S'
     public Coordinate getStartPoint() {

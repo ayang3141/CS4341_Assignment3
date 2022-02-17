@@ -5,7 +5,7 @@ import java.util.Random;
 
 public class BoardGenerator {
 
-    public static void main(String[] args) throws IOException {
+    public Board generateRandom() throws IOException {
 
 
         boolean placedStart = false;
@@ -32,31 +32,30 @@ public class BoardGenerator {
         board[startX][startY] = 'S';
 
 
-        FileWriter file = new FileWriter("sampleBoard2.txt", false);
-        PrintWriter write = new PrintWriter(file);
-        for(int i = 0; i < numRows; i++) {
-            for(int j = 0; j < numColumns; j++) {
-                char value = board[i][j];
-                if((value == 'S') || (value == 'G')) {
-                    write.print(value);
-                }
-                else {
-                    write.print(Character.getNumericValue(value));
-                }
+//        FileWriter file = new FileWriter("sampleBoard2.txt", false);
+//        PrintWriter write = new PrintWriter(file);
+//        for(int i = 0; i < numRows; i++) {
+//            for(int j = 0; j < numColumns; j++) {
+//                char value = board[i][j];
+//                if((value == 'S') || (value == 'G')) {
+//                    write.print(value);
+//                }
+//                else {
+//                    write.print(Character.getNumericValue(value));
+//                }
+//
+//                if(j == numColumns - 1) {
+//                    write.print("\n");
+//                }
+//                else {
+//                    write.print("\t");
+//                }
+//            }
+//        }
+//        write.close();
 
-                if(j == numColumns - 1) {
-                    write.print("\n");
-                }
-                else {
-                    write.print("\t");
-                }
-            }
-        }
 
-
-
-
-        write.close();
+        return new Board(board);
     }
 
 
