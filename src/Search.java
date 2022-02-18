@@ -30,6 +30,7 @@ public class Search {
         int numNodesExpanded = 0;
         int numActions = 0;
         int score = 0;
+        int pathCost = 0;
 
         // Feature extraction variables
         List<Integer> costToGoalList = new ArrayList<Integer>();
@@ -84,6 +85,7 @@ public class Search {
             if(this.gameBoard.getComplexity(current.getX(), current.getY()) == 'G') {
 
                 score = 100 - current.currentCost;
+                pathCost = current.currentCost;
 
                 // actual cost goal state
                 int actualCost = current.currentCost;
@@ -181,6 +183,7 @@ public class Search {
         numActions = MoveList.size();;
         // print out path score, number of actions, and number of nodes expanded
         System.out.println("Score of the path: " + score);
+        System.out.println("Cost of Path: " + pathCost);
         System.out.println("Number of actions: " + numActions);
         System.out.println("Number of nodes expanded: " + numNodesExpanded);
         // print out list of moves to get to goal
