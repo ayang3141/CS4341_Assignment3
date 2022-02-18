@@ -137,7 +137,13 @@ public class Search {
                         [NextState.get(i).getY()]
                         [NextState.get(i).getFaceDirection()-1].getCurrentCost() == -1) {
                     // determine the priority of the new state
-                    NextState.get(i).priorityValue = NextState.get(i).currentCost + myHeuristic.heuristicFunction(this.heuristic, NextState.get(i).getCoordinate(), endPoint);
+//                    NextState.get(i).priorityValue = NextState.get(i).currentCost + myHeuristic.heuristicFunction(this.heuristic, NextState.get(i).getCoordinate(), endPoint);
+                    if(this.heuristic != 7) {
+                        NextState.get(i).priorityValue = NextState.get(i).currentCost + myHeuristic.heuristicFunction(this.heuristic, NextState.get(i).getCoordinate(), endPoint);
+                    }
+                    else { // HW 3: Machine Learned Heuristic
+                        NextState.get(i).priorityValue = NextState.get(i).currentCost + myHeuristic.mlHeuristic(NextState.get(i), this.agent, this.gameBoard);
+                    }
 
                     // Put the next state into the cost_so_far matrix
                     Best_States[NextState.get(i).getX()][NextState.get(i).getY()][NextState.get(i).getFaceDirection()-1] = NextState.get(i);
@@ -151,6 +157,14 @@ public class Search {
                         [NextState.get(i).getFaceDirection()-1].getCurrentCost() > NextState.get(i).currentCost) {
                     // determine the priority of the new state
                     NextState.get(i).priorityValue = NextState.get(i).currentCost + myHeuristic.heuristicFunction(this.heuristic, NextState.get(i).getCoordinate(), endPoint);
+//                    NextState.get(i).priorityValue = NextState.get(i).currentCost + myHeuristic.heuristicFunction(this.heuristic, NextState.get(i).getCoordinate(), endPoint);
+                    if(this.heuristic != 7) {
+                        NextState.get(i).priorityValue = NextState.get(i).currentCost + myHeuristic.heuristicFunction(this.heuristic, NextState.get(i).getCoordinate(), endPoint);
+                    }
+                    else { // HW 3: Machine Learned Heuristic
+                        NextState.get(i).priorityValue = NextState.get(i).currentCost + myHeuristic.mlHeuristic(NextState.get(i), this.agent, this.gameBoard);
+                    }
+
                     // set old worse node to now be the new, better node
                     Best_States[current.getX()][current.getY()][current.getFaceDirection()-1] = NextState.get(i);
                     // Add new state to the priority queue
@@ -175,13 +189,13 @@ public class Search {
         }
 
         // Print ML Learning Stuff
-        printFeatures(NewMoveList,
-                        costToGoalList,
-                        coordinateList,
-                        directionList,
-                        stateList,
-                        this.gameBoard,
-                        this.agent);
+//        printFeatures(NewMoveList,
+//                        costToGoalList,
+//                        coordinateList,
+//                        directionList,
+//                        stateList,
+//                        this.gameBoard,
+//                        this.agent);
 
 
 
