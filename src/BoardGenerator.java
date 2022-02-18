@@ -63,8 +63,8 @@ public class BoardGenerator {
 
         boolean placedStart = false;
         boolean placedGoal = false;
-        int numRows = 10;
-        int numColumns = 10;
+        int numRows = 20;
+        int numColumns = 20;
         Random random = new Random();
 
         char[][] board = new char[numRows][numColumns];
@@ -85,7 +85,7 @@ public class BoardGenerator {
         board[startX][startY] = 'S';
 
 
-        FileWriter file = new FileWriter("sampleBoard2.txt", false);
+        FileWriter file = new FileWriter("sampleBoard10.txt", false);
         PrintWriter write = new PrintWriter(file);
         for(int i = 0; i < numRows; i++) {
             for(int j = 0; j < numColumns; j++) {
