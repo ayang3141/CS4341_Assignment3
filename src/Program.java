@@ -14,8 +14,8 @@ public class Program {
         Search search1 = new Search(gameboard, agent1, Integer.parseInt(args[1]));
         search1.A_Star_Search();
 
-        // Assignment 3: manual input code
-//        for(int i = 1; i <= 10; i++) {
+//         Assignment 3: manual input code
+//        for(int i = 1; i <= 6000; i++) {
 //            BoardGenerator genBoard = new BoardGenerator();
 //            Board gameboard = genBoard.generateRandom();
 //            Agent agent1 = new Agent(gameboard);

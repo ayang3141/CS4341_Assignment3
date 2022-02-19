@@ -79,14 +79,14 @@ public class Heuristics {
 
     public int mlHeuristic(State currentState, Agent agent, Board gameBoard) {
         // Model Coefficients
-        double xDistCoef = 2.9313;
-        double yDistCoef = 2.9229;
-        double BothNorthCoef = -0.8968;
-        double BothSouthCoef = -1.0234;
-        double BothWestCoef = -1.4221;
-        double BothEastCoef = -1.3121;
-        double ForwardComplexityCoef = 0.0079;
-        double BackwardComplexityCoef = -0.0024;
+        double xDistCoef = 2.9421;
+        double yDistCoef = 2.9368;
+        double BothNorthCoef = -0.9144;
+        double BothSouthCoef = -1.0232;
+        double BothWestCoef = -1.4402;
+        double BothEastCoef = -1.2751;
+        double ForwardComplexityCoef = 0.0075;
+        double BackwardComplexityCoef = -0.0029;
 
         // Calculation of feature values
         int xDist = currentState.getX() - gameBoard.getEndPoint().getX();

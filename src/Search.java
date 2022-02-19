@@ -192,13 +192,13 @@ public class Search {
         }
 
         // Print ML Learning Stuff
-//        printFeatures(NewMoveList,
-//                        costToGoalList,
-//                        coordinateList,
-//                        directionList,
-//                        stateList,
-//                        this.gameBoard,
-//                        this.agent);
+        printFeatures(NewMoveList,
+                        costToGoalList,
+                        coordinateList,
+                        directionList,
+                        stateList,
+                        this.gameBoard,
+                        this.agent);
 
 
 
